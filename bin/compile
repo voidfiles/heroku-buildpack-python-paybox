@@ -91,6 +91,17 @@ cd $BUILD_DIR
 # 
 # Just a little peace of mind.
 
+# Sticky runtimes.
+if [ -f $CACHE_DIR/.heroku/python-version ]; then
+  DEFAULT_PYTHON_VERSION=$(cat $CACHE_DIR/.heroku/python-version)
+fi
+
+# If no runtime given, assume default version.
+if [ ! -f runtime.txt ]; then
+  puts-step "No runtime.txt provided; assuming $DEFAULT_PYTHON_VERSION."
+  echo $DEFAULT_PYTHON_VERSION > runtime.txt
+fi
+
 # If no requirements given, assume `setup.py develop`.
 if [ ! -f requirements.txt ]; then
   puts-step "No requirements.txt provided; assuming dist package."
